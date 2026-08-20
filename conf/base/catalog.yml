@@ -11,3 +11,27 @@ dataset_index:
 dataframe_with_metadata:
   type: pandas.CSVDataset
   filepath: data/03_primary/plant_village_metrics.csv
+
+plantvillage_metadata_clean:
+  type: pandas.CSVDataset
+  filepath: data/04_feature/plantvillage_metadata_clean.csv
+
+relatorio_fase1:
+  type: text.TextDataset
+  filepath: data/08_reporting/relatorio_fase1.txt
+
+plot_class_distribution:
+  type: plotly.JSONDataset
+  filepath: data/08_reporting/plot_class_distribution.json
+
+plot_crop_distribution:
+  type: plotly.JSONDataset
+  filepath: data/08_reporting/plot_crop_distribution.json
+
+plot_brightness_histogram:
+  type: plotly.JSONDataset
+  filepath: data/08_reporting/plot_brightness_histogram.json
+
+plot_rgb_histogram:
+  type: plotly.JSONDataset
+  filepath: data/08_reporting/plot_rgb_histogram.json

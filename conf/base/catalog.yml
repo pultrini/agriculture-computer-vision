@@ -1,0 +1,13 @@
+# Here you can define all your datasets by using simple YAML syntax.
+#
+# Documentation for this file format can be found in "The Data Catalog"
+# Link: https://docs.kedro.org/en/stable/catalog-data/introduction/#data-catalog
+
+
+dataset_index:
+  type: pandas.CSVDataset
+  filepath: data/02_intermediate/dataset_index.csv
+
+dataframe_with_metadata:
+  type: pandas.CSVDataset
+  filepath: data/03_primary/plant_village_metrics.csv

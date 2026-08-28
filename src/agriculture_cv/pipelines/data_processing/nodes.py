@@ -1,12 +1,10 @@
 from __future__ import annotations
 
 import logging
-from pathlib import Path
-from typing import Any
 import time
+from pathlib import Path
 
 import cv2
-import numpy as np
 import pandas as pd
 
 logger = logging.getLogger(__name__)
@@ -14,13 +12,13 @@ logger = logging.getLogger(__name__)
 
 def build_file_index(dataset_dir: Path | str) -> pd.DataFrame:
     """
-    Build the dataset csv with a path for a image dataset
-    Works only with the PlantVillage-Dataset
-    Args:
-        dataset_dir: Path to the dataset directory
+     Build the dataset csv with a path for a image dataset
+     Works only with the PlantVillage-Dataset
+     Args:
+         dataset_dir: Path to the dataset directory
 
-   Returns:
-       Dataframe with a path for the image dataset
+    Returns:
+        Dataframe with a path for the image dataset
     """
     dataset_dir = Path(dataset_dir)
     rows = []
@@ -37,16 +35,19 @@ def build_file_index(dataset_dir: Path | str) -> pd.DataFrame:
         for img_path in class_dir.iterdir():
             if img_path.suffix.lower() not in (".jpg", ".jpeg", ".png"):
                 continue
-            rows.append({
-                'path': str(img_path),
-                'filename': img_path.name,
-                'class_name': class_name,
-                'crop': crop,
-                'disease': disease,
-                'is_healthy': healthy,
-            })
+            rows.append(
+                {
+                    "path": str(img_path),
+                    "filename": img_path.name,
+                    "class_name": class_name,
+                    "crop": crop,
+                    "disease": disease,
+                    "is_healthy": healthy,
+                }
+            )
     logger.info(f"Built {len(rows)} rows")
     return pd.DataFrame(rows)
+
 
 def extract_image_metrics(path: str) -> dict:
     """Read the image and extract image metrics
@@ -63,7 +64,11 @@ def extract_image_metrics(path: str) -> dict:
         brightness_mean = float(gray.mean())
         brightness_std = float(gray.std())
 
-        b_mean, g_mean, r_mean = img[:, :, 0].mean(), img[:, :, 1].mean(), img[:, :, 2].mean()
+        b_mean, g_mean, r_mean = (
+            img[:, :, 0].mean(),
+            img[:, :, 1].mean(),
+            img[:, :, 2].mean(),
+        )
 
         return {
             "is_corrupted": False,
@@ -76,8 +81,9 @@ def extract_image_metrics(path: str) -> dict:
             "mean_G": float(g_mean),
             "mean_B": float(b_mean),
         }
-    except Exception as e:
+    except Exception:
         return {"is_corrupted": True}
+
 
 def process_dataset(df: pd.DataFrame, checkpoint_every: int = 5000) -> pd.DataFrame:
     """
@@ -101,5 +107,7 @@ def process_dataset(df: pd.DataFrame, checkpoint_every: int = 5000) -> pd.DataFr
             logger.info(f"[{i + 1}/{n}] {rate:.1f} imgs/s, ETA {eta / 60:.1f} min")
 
     metrics_df = pd.DataFrame(metrics)
-    full_df = pd.concat([df.reset_index(drop=True), metrics_df.reset_index(drop=True)], axis=1)
+    full_df = pd.concat(
+        [df.reset_index(drop=True), metrics_df.reset_index(drop=True)], axis=1
+    )
     return full_df

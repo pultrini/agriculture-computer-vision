@@ -1,1 +1,8 @@
 dataset_dir: "data/01_raw/PlantVillage-Dataset/raw/color"
+
+model_training:
+  lr: 0.0001
+  batch_size: 32
+  epochs: 1
+  num_classes: 38
+  image_size: 224

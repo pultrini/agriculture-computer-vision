@@ -130,7 +130,10 @@ def train_model_and_track_model(train_df, val_df, params: dict):
 
 
 def evaluate_model(
-    trained_model_checkpoint: nn.Module, test_data: pd.DataFrame, params: dict
+    trained_model_checkpoint: nn.Module,
+    test_data: pd.DataFrame,
+    params: dict,
+    label_mapping: dict,
 ):
     device = torch.device(
         "cuda"
@@ -160,9 +163,7 @@ def evaluate_model(
             all_preds.extend(predicted.cpu().numpy())
             all_targets.extend(labels.cpu().numpy())
 
-    # Mapeia id_numérico -> nome_da_classe diretamente do test_data
-    # (Altere "target" e "label" para os nomes exatos das suas colunas se forem diferentes)
-    id_to_class = dict(zip(test_data["target"], test_data["label"]))
+    id_to_class = {i: name for i, name in enumerate(label_mapping)}
     class_names = [id_to_class[i] for i in sorted(id_to_class.keys())]
 
     report = classification_report(

@@ -14,7 +14,7 @@ class PlantVillageDataset(Dataset):
 
     def __getitem__(self, idx):
         img_path = self.df.loc[idx, "path"]
-        label = int(self.df.loc[idx, "is_healthy"])
+        label = int(self.df.loc[idx, "label"])
 
         image = Image.open(img_path).convert("RGB")
 

@@ -18,6 +18,7 @@ def create_pipeline(**kwargs) -> Pipeline:
                     "trained_model_checkpoint",
                     "test_data",
                     "params:model_training",
+                    "label_mapping",
                 ],
                 outputs=["evaluation_metrics", "confusion_matrix_plot"],
                 name="evaluate_model_node",
